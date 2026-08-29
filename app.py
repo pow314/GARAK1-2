@@ -1541,9 +1541,9 @@ ALL_QUESTIONS = {
 
 
 # ------------------------------------------------------------------------------
-# 30문제씩 프로그램이 자동으로 분할하는 로직
+# 25문제씩 프로그램이 자동으로 분할하는 로직
 # ------------------------------------------------------------------------------
-def create_30_item_chunks(data_dict, chunk_size=30):
+def create_25_item_chunks(data_dict, chunk_size=25):
   keys = list(data_dict.keys())
   chunks = {}
   for i in range(0, len(keys), chunk_size):
@@ -1555,7 +1555,7 @@ def create_30_item_chunks(data_dict, chunk_size=30):
   return chunks
 
 
-QUESTION_CHUNKS = create_30_item_chunks(ALL_QUESTIONS, chunk_size=30)
+QUESTION_CHUNKS = create_25_item_chunks(ALL_QUESTIONS, chunk_size=25)
 
 
 # ==============================================================================
@@ -1667,7 +1667,7 @@ with tab1:
 
   with col_range:
     selected_chunk_label = st.selectbox(
-        "제출할 과제 구역(30문항 단위)을 선택하세요",
+        "제출할 과제 구역(25문항 단위)을 선택하세요",
         list(QUESTION_CHUNKS.keys()),
     )
 
