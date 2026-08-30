@@ -13,7 +13,7 @@ UPLOAD_DIR = "uploaded_photos"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 # 🔒 선생님 전용 비밀번호
-TEACHER_PASSWORD = "8024"
+TEACHER_PASSWORD = "1234"
 
 # ✉️ 이메일 알림 설정 (Gmail)
 SENDER_EMAIL = "pend9494@gmail.com"
@@ -1682,22 +1682,40 @@ with tab1:
   )
 
   user_answers = {}
+  # 10개 문항 단위 접이식 세션
   for i in range(0, len(target_keys), 10):
     chunk_10 = target_keys[i : i + 10]
     with st.expander(
         f"📝 문항 {chunk_10[0]}번 ~ {chunk_10[-1]}번 정답 입력", expanded=(i == 0)
     ):
-      cols = st.columns(2)
-      for idx, q_num in enumerate(chunk_10):
-        q_info = target_questions[q_num]
-        with cols[idx % 2]:
-          user_answers[q_num] = st.radio(
-              f"**{q_num}번**",
-              options=range(len(q_info["options"])),
-              format_func=lambda x, opts=q_info["options"]: opts[x],
-              key=f"q_{q_num}_{selected_chunk_label}",
+      # 📱 모바일/PC 순서 고정을 위해 행(row) 단위로 2개씩 컬럼을 생성합니다.
+      for j in range(0, len(chunk_10), 2):
+        row_cols = st.columns(2)
+
+        # 첫 번째 문항 (짝수 번)
+        q_num1 = chunk_10[j]
+        q_info1 = target_questions[q_num1]
+        with row_cols[0]:
+          user_answers[q_num1] = st.radio(
+              f"**{q_num1}번**",
+              options=range(len(q_info1["options"])),
+              format_func=lambda x, opts=q_info1["options"]: opts[x],
+              key=f"q_{q_num1}_{selected_chunk_label}",
               horizontal=True,
           )
+
+        # 두 번째 문항 (홀수 번, 존재하는 경우만 배치)
+        if j + 1 < len(chunk_10):
+          q_num2 = chunk_10[j + 1]
+          q_info2 = target_questions[q_num2]
+          with row_cols[1]:
+            user_answers[q_num2] = st.radio(
+                f"**{q_num2}번**",
+                options=range(len(q_info2["options"])),
+                format_func=lambda x, opts=q_info2["options"]: opts[x],
+                key=f"q_{q_num2}_{selected_chunk_label}",
+                horizontal=True,
+            )
 
   st.write("---")
   st.subheader("📸 풀이 과정 사진 첨부 (선택)")
