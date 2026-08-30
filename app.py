@@ -13,7 +13,7 @@ UPLOAD_DIR = "uploaded_photos"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 # 🔒 선생님 전용 비밀번호
-TEACHER_PASSWORD = "1234"
+TEACHER_PASSWORD = "8024"
 
 # ✉️ 이메일 알림 설정 (Gmail)
 SENDER_EMAIL = "pend9494@gmail.com"
